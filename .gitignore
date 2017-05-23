@@ -1,0 +1,17 @@
+﻿#忽略windows系统文件夹
+
+$RECYCLE.BIN
+
+#忽略以点开头的文件
+
+#.*
+
+
+#忽略图片文件夹
+WorkSpace/OpenCV/hw_edgeDetect/Image/
+
+#忽略class文件
+*.class
+out
+.idea
+*.iml
