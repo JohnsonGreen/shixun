@@ -15,6 +15,10 @@ public class CyhFile {
     private String suffix;
 
 
+    public String getSuffix() { return suffix; }
+
+    public void setSuffix(String suffix) { this.suffix = suffix; }
+
     public String getFileName() {
         return fileName;
     }

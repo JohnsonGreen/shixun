@@ -27,6 +27,8 @@ public class CyhUpload {
         httpServletResponse = (HttpServletResponse) pageContext.getResponse();
     }
 
+
+    //上传文件
     public CyhFile upload(String path)throws CyhUploadException{
        if( httpServletRequest.getContentLength() > 0){
             InputStream inputStream = null;
@@ -52,6 +54,7 @@ public class CyhUpload {
         return null;
     }
 
+    //保存文件到指定位置
     public boolean save(String path)throws IOException{
         return false;
     }
