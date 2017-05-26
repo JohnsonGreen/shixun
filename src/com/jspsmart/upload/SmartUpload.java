@@ -469,12 +469,8 @@ public class SmartUpload {
 	}
 
 	private String getFileName(String s) {
-		String s1 = new String();
-		String s2 = new String();
+
 		int i = 0;
-		boolean flag = false;
-		boolean flag1 = false;
-		boolean flag2 = false;
 		i = s.lastIndexOf(47);
 		if (i != -1)
 			return s.substring(i + 1, s.length());
