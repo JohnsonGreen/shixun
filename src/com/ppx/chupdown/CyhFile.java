@@ -8,16 +8,29 @@ import java.io.File;
  */
 public class CyhFile {
 
-    private String fileName;
-    private String uniqueName;
-    private int fileSize;
+    private String fieldName;    //上传时的"name"名
+    private String fileName;    //文件名
+    private String uniqueName;  //生成的存储时的文件名
+    private int fileSize;       //文件大小
     private String contenetType;
-    private String suffix;
+    private String extensionName;     //扩展名
 
 
-    public String getSuffix() { return suffix; }
+    public String getFieldName() {
+        return fieldName;
+    }
 
-    public void setSuffix(String suffix) { this.suffix = suffix; }
+    public void setFieldName(String fieldName) {
+        this.fieldName = fieldName;
+    }
+
+    public String getExtensionName() {
+        return extensionName;
+    }
+
+    public void setExtensionName(String extensionName) {
+        this.extensionName = extensionName;
+    }
 
     public String getFileName() {
         return fileName;

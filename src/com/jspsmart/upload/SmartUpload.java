@@ -118,19 +118,25 @@ public class SmartUpload {
 				throw new SmartUploadException("Unable to upload.");
 			}
 
-		for (; !flag1 && m_currentIndex < m_totalBytes; m_currentIndex++)
-			if (m_binArray[m_currentIndex] == 13)
+
+		//判断边界
+		for (; !flag1 && m_currentIndex < m_totalBytes; m_currentIndex++)  //最后一步前，m_currentIndex++,说明当前指向'\n'
+			if (m_binArray[m_currentIndex] == 13)   //表示回车，回到行开始的地方 == '\r', 10 表示 '\n'，换行
 				flag1 = true;
 			else
 				m_boundary = m_boundary + (char) m_binArray[m_currentIndex];
 
+
+
 		if (m_currentIndex == 1)
 			return;
-		for (m_currentIndex++; m_currentIndex < m_totalBytes; m_currentIndex = m_currentIndex + 2) {
+
+		//之前再++则m_currentIndex已经指向头信息的第一位了，不再是换行符
+		for (m_currentIndex++; m_currentIndex < m_totalBytes; m_currentIndex = m_currentIndex + 2) {   //加2的原因是java 里 char占两个字节
 			String s1 = getDataHeader();
 			m_currentIndex = m_currentIndex + 2;
-			boolean flag3 = s1.indexOf("filename") > 0;
-			String s3 = getDataFieldValue(s1, "name");
+			boolean flag3 = s1.indexOf("filename") > 0;  //头中存在filename字段
+			String s3 = getDataFieldValue(s1, "name");  //得到name字段中的值
 			if (flag3) {
 				s6 = getDataFieldValue(s1, "filename");
 				s4 = getFileName(s6);
@@ -344,30 +350,28 @@ public class SmartUpload {
 		String s2 = new String();
 		String s3 = new String();
 		int i = 0;
-		boolean flag = false;
-		boolean flag1 = false;
-		boolean flag2 = false;
-		s2 = s1 + "=" + '"';
+		s2 = s1 + "=" + '"';  // =""
 		i = s.indexOf(s2);
 		if (i > 0) {
-			int j = i + s2.length();
+			int j = i + s2.length();  //
 			int k = j;
-			s2 = "\"";
-			int l = s.indexOf(s2, j);
+			s2 = "\"";        //双引号
+			int l = s.indexOf(s2, j);   //从j开始（包括j进行搜索）s中的第几位，这里是第一个引号的后一位
 			if (k > 0 && l > 0)
-				s3 = s.substring(k, l);
+				s3 = s.substring(k, l);  //截取域名 如 filename="sdsd.txt",subString中的endIndex参数表示想要截取到的最后一个字符的后一位，这样endIndex-beginIndex,就等于截取的字符个数了
 		}
 		return s3;
 	}
 
+	//获取文件扩展名
 	private String getFileExt(String s) {
 		String s1 = new String();
 		int i = 0;
 		int j = 0;
 		if (s == null)
 			return null;
-		i = s.lastIndexOf(46) + 1;
-		j = s.length();
+		i = s.lastIndexOf(46) + 1;    // 46为'.',最后一次出现的位置
+		j = s.length();                   //
 		s1 = s.substring(i, j);
 		if (s.lastIndexOf(46) > 0)
 			return s1;
@@ -451,9 +455,9 @@ public class SmartUpload {
 		boolean flag = false;
 		for (boolean flag1 = false; !flag1;)
 			if (m_binArray[m_currentIndex] == 13
-					&& m_binArray[m_currentIndex + 2] == 13) {
+					&& m_binArray[m_currentIndex + 2] == 13) {  //判断分界线+空行中的回车符CR(表示为‘\r’)
 				flag1 = true;
-				j = m_currentIndex - 1;
+				j = m_currentIndex - 1;  //m_currentIndex之前的那一位是信息头的最后一位
 				m_currentIndex = m_currentIndex + 2;
 			} else {
 				m_currentIndex++;
@@ -461,7 +465,7 @@ public class SmartUpload {
 
 		String s = null;
 		try {
-			s = new String(m_binArray, i, (j - i) + 1, "utf-8");
+			s = new String(m_binArray, i, (j - i) + 1, "utf-8");  //保存为以utf-8编码的字符串
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -471,10 +475,10 @@ public class SmartUpload {
 	private String getFileName(String s) {
 
 		int i = 0;
-		i = s.lastIndexOf(47);
+		i = s.lastIndexOf(47);   //  为'/'
 		if (i != -1)
 			return s.substring(i + 1, s.length());
-		i = s.lastIndexOf(92);
+		i = s.lastIndexOf(92);  // 为反斜杠 '\'
 		if (i != -1)
 			return s.substring(i + 1, s.length());
 		else
